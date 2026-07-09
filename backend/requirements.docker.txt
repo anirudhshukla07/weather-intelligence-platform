@@ -1,0 +1,17 @@
+# Lightweight Docker requirements for normal WRF map/API usage.
+# Voice endpoints (/transcribe and /tts) are intentionally excluded because
+# faster-whisper + Coqui TTS + torch make the image very large.
+fastapi==0.112.2
+uvicorn==0.23.2
+python-multipart
+python-dotenv
+xarray
+netCDF4
+dask
+numpy
+pandas
+matplotlib
+scipy
+pillow
+searoute
+global-land-mask

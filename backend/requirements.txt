@@ -1,0 +1,25 @@
+fastapi==0.112.2
+uvicorn==0.23.2
+xarray
+netCDF4
+dask
+numpy
+pandas
+matplotlib
+scipy
+python-multipart
+python-dotenv
+pillow
+python-multipart
+searoute
+faster-whisper
+global-land-mask
+# Offline text-to-speech (XTTS-v2). torch/torchaudio install from the CUDA
+# index: pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu121
+coqui-tts
+torch
+torchaudio
+# CUDA runtime DLLs for GPU Whisper on Windows (harmless to install on CPU-only)
+nvidia-cublas-cu12
+nvidia-cudnn-cu12
+nvidia-cuda-runtime-cu12

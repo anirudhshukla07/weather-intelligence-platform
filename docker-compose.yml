@@ -1,0 +1,47 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: anirudhwrf-backend
+    ports:
+      - "8000:8000"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8000
+      PYTHONUNBUFFERED: "1"
+
+      # Your assistant calls local Ollama. From inside Docker, localhost means
+      # the container itself, so use host.docker.internal to reach Ollama running
+      # on your laptop.
+      ASSISTANT_PROVIDER: ollama-prompt
+      OLLAMA_URL: http://host.docker.internal:11434
+      OLLAMA_MODEL: llama3.2:3b
+
+      # CPU-safe defaults for Docker. The lightweight Docker requirements do
+      # not include Whisper/TTS dependencies unless you add them manually.
+      WHISPER_DEVICE: cpu
+      WHISPER_COMPUTE: int8
+      TTS_DEVICE: cpu
+      DISABLE_WHISPER_WARMUP: "1"
+      DISABLE_TTS_WARMUP: "1"
+    volumes:
+      - ./backend/uploaded_data:/app/uploaded_data
+      - ./backend/cache:/app/cache
+      - ./backend/data/wrf:/app/data/wrf
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: anirudhwrf-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE: http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
